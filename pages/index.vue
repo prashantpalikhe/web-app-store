@@ -1,51 +1,47 @@
 <template>
   <div class="container">
     <detail hero-image="/regular.jpg" hero-image-blurred="/blur.jpg">
-      <p>
-        Labore sint pariatur cupidatat duis eiusmod. Nulla est magna fugiat sint
-        reprehenderit cillum aute est cupidatat pariatur et ex nostrud dolore.
-        Occaecat cupidatat consectetur aute sint commodo amet mollit mollit aute
-        ut. Ad reprehenderit nulla cillum sint in nisi exercitation ullamco
-        elit. Aliqua do excepteur sunt deserunt eiusmod pariatur commodo
-        pariatur. Duis sint in tempor velit dolor. Proident duis ullamco dolor
-        exercitation esse amet adipisicing magna aliquip ex. Consectetur
-        consequat cillum exercitation dolor qui consectetur cupidatat. Dolore
-        sint ad ullamco reprehenderit aliquip. Duis laboris laboris eiusmod
-        pariatur.
-      </p>
+      <section class="header">
+        <img src="/icon.jpg" alt="" />
+
+        <div class="header__content">
+          <h1>The Sims™ Mobile</h1>
+          <h2>Play with life.</h2>
+          <div class="spacer" />
+
+          <div class="header__actions">
+            <button>GET</button>
+            <span class="small">In-App Purchases</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats">
+        <div class="stat">
+          <p class="stat__result">4.6 ★★★★☆</p>
+          <p>23,6K Ratings</p>
+        </div>
+
+        <div class="stat">
+          <p class="stat__result">12 +</p>
+          <p>Age</p>
+        </div>
+      </section>
+
+      <carousel :items="items" />
 
       <p>
-        Cillum tempor ad veniam consequat exercitation magna dolore sit ut qui
-        irure aliquip amet. Nostrud pariatur ea exercitation et sunt adipisicing
-        tempor. Exercitation veniam adipisicing duis eiusmod sint irure culpa
-        ullamco commodo enim labore nulla consectetur laboris. Occaecat labore
-        excepteur tempor non eu magna voluptate cillum. In enim eiusmod commodo
-        exercitation magna exercitation occaecat nulla anim commodo laborum sunt
-        enim duis. Dolor reprehenderit ex veniam aliqua culpa magna enim elit
-        sit. Consectetur do officia fugiat incididunt dolore do ut tempor sit
-        laboris. Ad et sunt fugiat labore ut esse et. Pariatur magna Lorem
-        officia et irure est voluptate mollit. Reprehenderit consectetur dolor
-        magna velit in velit nulla pariatur qui. Amet sit ea laboris esse
-        incididunt consectetur. Veniam exercitation ea labore fugiat eiusmod
-        tempor irure. Aliquip minim eu esse officia aliqua magna Lorem Lorem
-        cillum mollit amet.
-      </p>
-
-      <p>
-        In quis eu non pariatur anim aute veniam. Id ea ex anim ipsum enim
-        consectetur dolor ipsum mollit reprehenderit ad exercitation. Aliquip
-        Lorem elit consectetur anim labore elit ipsum. In adipisicing cupidatat
-        cupidatat officia laboris sunt irure consequat minim sunt occaecat
-        cillum aute. Nisi proident culpa ut quis eiusmod esse ad tempor ut
-        excepteur occaecat nostrud labore nulla. Ex sit reprehenderit
-        consectetur non non enim ea dolor nostrud.
-      </p>
-
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo, voluptas
-        earum eaque deserunt, qui nesciunt omnis iste consequuntur saepe sint
-        quasi ea ratione. Laboriosam tenetur dolorum temporibus consectetur
-        accusamus assumenda.
+        Lorem eiusmod eu esse mollit eu adipisicing. Ipsum commodo elit
+        exercitation laborum cupidatat voluptate voluptate ut culpa aute id ut
+        quis qui. Aute aliqua est ex veniam magna ad Lorem aute sit do
+        excepteur. Consectetur et aute tempor irure irure cupidatat eu velit
+        cupidatat. Nostrud ut ipsum eiusmod sit nisi occaecat consectetur aute
+        excepteur est. Sunt minim commodo amet nisi mollit occaecat adipisicing
+        et nostrud. Laboris minim consequat irure minim in consequat Lorem sint
+        culpa nostrud Lorem do. Lorem laboris laborum nulla ad irure nisi sunt
+        nisi magna excepteur Lorem enim anim. Enim in ullamco consequat fugiat
+        ea reprehenderit id sit duis dolor officia aute commodo. Ullamco ut et
+        labore proident commodo ullamco ipsum commodo aliqua minim.
       </p>
     </detail>
   </div>
@@ -53,10 +49,24 @@
 
 <script>
 import Detail from '~/components/Detail.vue'
+import Carousel from '~/components/Carousel.vue'
 
 export default {
   components: {
-    Detail
+    Detail,
+    Carousel
+  },
+  data() {
+    return {
+      items: [
+        '/carousel.jpg',
+        '/carousel.jpg',
+        '/carousel.jpg',
+        '/carousel.jpg',
+        '/carousel.jpg',
+        '/carousel.jpg'
+      ]
+    }
   }
 }
 </script>
@@ -82,5 +92,74 @@ export default {
 
 .links {
   padding-top: 15px;
+}
+
+section {
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.header img {
+  width: 118px;
+  height: 118px;
+  border-radius: 25px;
+  margin-right: 20px;
+  flex-shrink: 0;
+}
+
+.header__content {
+  display: flex;
+  flex-direction: column;
+}
+
+.header h1 {
+  font-size: 22px;
+  margin-top: 5px;
+}
+
+.header h2 {
+  font-size: 15px;
+  font-weight: normal;
+  color: #8e8e93;
+  margin-top: 5px;
+}
+
+button {
+  background: #2d7cf6;
+  -webkit-appearance: none;
+  border: none;
+  padding: 6px 20px;
+  color: white;
+  font-weight: bold;
+  border-radius: 20px;
+}
+
+.small {
+  font-size: 10px;
+  color: #8d8e92;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+}
+
+.stat {
+  color: #b3b4b8;
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+}
+
+.stat__result {
+  font-weight: bold;
+  font-size: 22px;
 }
 </style>

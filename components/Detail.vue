@@ -16,7 +16,6 @@
 
 <script>
 import Console from '~/components/Console.vue'
-
 export default {
   components: { Console },
   props: {
@@ -26,12 +25,13 @@ export default {
     },
     heroHeight: {
       type: Number,
-      default: 180
+      default: 200
     }
   },
   data() {
     return {
-      enableParallax: false
+      enableParallax: false,
+      scrollY: 0
     }
   },
   mounted() {
@@ -39,33 +39,39 @@ export default {
 
     this.loop = this.loop.bind(this)
     requestAnimationFrame(this.loop)
+
+    document.addEventListener('touchstart', () => {
+      document.querySelector(
+        '[name="apple-mobile-web-app-status-bar-style"]'
+      ).content = 'default'
+    })
   },
   beforeDestroy() {
     this.enableParallax = false
   },
   methods: {
     loop() {
+      requestAnimationFrame(this.loop)
+
       if (!this.enableParallax) return
-      const scrollY = window.scrollY
 
-      if (scrollY >= 0) {
-        const yTransformation = Math.max(0, scrollY / 2)
+      this.scrollY = window.scrollY
 
-        // console.log({ yTransformation }) // eslint-disable-line
+      if (this.scrollY >= 0) {
+        const yTransformation = Math.max(0, this.scrollY / 2)
 
         this.$refs.parallax.style.transform = `translate3d(0, -${yTransformation}px, 0)`
       } else {
-        const scale = -scrollY / this.heroHeight + 1
+        const scale = -this.scrollY / this.heroHeight + 1
 
         this.$refs.parallax.style.transform = `scale3d(${scale}, ${scale}, 0)`
-
-        console.log({ scrollY, scale }) // eslint-disable-line
-        // this.$refs.parallaxBlurred.style.transform = `scale(${scale})`
-
-        // this.$refs.parallax.style.opacity = 1 - -scrollY / this.heroHeight
+        // eslint-disable-next-line
+        console.log({
+          scrollY: this.scrollY,
+          scale,
+          top: this.$refs.parallax.getBoundingClientRect().top
+        })
       }
-
-      requestAnimationFrame(this.loop)
     }
   }
 }
@@ -74,21 +80,22 @@ export default {
 <style scoped>
 .parallax {
   position: fixed;
-  height: 180px;
+  height: 200px;
   will-change: transform;
   top: 0;
   left: 0;
   right: 0;
   background-size: cover;
+  background-position: top center;
   transform-origin: top;
+  z-index: -1;
 }
 
 .content {
   position: relative;
-  padding: 20px;
-  margin-top: 180px;
+  margin-top: 200px;
   z-index: 1;
-  background-color: #fff;
+  background-color: white;
   user-select: none;
 }
 </style>
