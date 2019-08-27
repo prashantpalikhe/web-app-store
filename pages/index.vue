@@ -30,31 +30,61 @@
 
       <carousel :items="items" />
 
-      <p>
-        Lorem eiusmod eu esse mollit eu adipisicing. Ipsum commodo elit
-        exercitation laborum cupidatat voluptate voluptate ut culpa aute id ut
-        quis qui. Aute aliqua est ex veniam magna ad Lorem aute sit do
-        excepteur. Consectetur et aute tempor irure irure cupidatat eu velit
-        cupidatat. Nostrud ut ipsum eiusmod sit nisi occaecat consectetur aute
-        excepteur est. Sunt minim commodo amet nisi mollit occaecat adipisicing
-        et nostrud. Laboris minim consequat irure minim in consequat Lorem sint
-        culpa nostrud Lorem do. Lorem laboris laborum nulla ad irure nisi sunt
-        nisi magna excepteur Lorem enim anim. Enim in ullamco consequat fugiat
-        ea reprehenderit id sit duis dolor officia aute commodo. Ullamco ut et
-        labore proident commodo ullamco ipsum commodo aliqua minim.
-      </p>
+      <section>
+        <p>
+          Lorem eiusmod eu esse mollit eu adipisicing. Ipsum commodo elit
+          exercitation laborum cupidatat voluptate voluptate ut culpa aute id ut
+          quis qui. Aute aliqua est ex veniam magna ad Lorem aute sit do
+          excepteur. Consectetur et aute tempor irure irure cupidatat eu velit
+          cupidatat. Nostrud ut ipsum eiusmod sit nisi occaecat consectetur aute
+          excepteur est. Sunt minim commodo amet nisi mollit occaecat
+          adipisicing et nostrud. Laboris minim consequat irure minim in
+          consequat Lorem sint culpa nostrud Lorem do. Lorem laboris laborum
+          nulla ad irure nisi sunt nisi magna excepteur Lorem enim anim. Enim in
+          ullamco consequat fugiat ea reprehenderit id sit duis dolor officia
+          aute commodo. Ullamco ut et labore proident commodo ullamco ipsum
+          commodo aliqua minim.
+        </p>
+      </section>
+
+      <section>
+        <popup-card image="/popup.jpeg">
+          <template #title>
+            <p class="small">HOW TO</p>
+            <p class="big">
+              Write your <br />
+              debut novel
+            </p>
+          </template>
+
+          <template #subtitle>
+            <p>Organise your thought and beat writer's block</p>
+          </template>
+
+          <template #content>
+            <p style="padding: 20px">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta
+              repellat minima soluta voluptatibus eos, sequi reiciendis vero
+              provident cum laudantium? Impedit totam repellendus, voluptatum
+              debitis nostrum tenetur vero cumque eligendi.
+            </p>
+          </template>
+        </popup-card>
+      </section>
     </detail>
   </div>
 </template>
 
 <script>
 import Detail from '~/components/Detail.vue'
+import PopupCard from '~/components/PopupCard.vue'
 import Carousel from '~/components/Carousel.vue'
 
 export default {
   components: {
     Detail,
-    Carousel
+    Carousel,
+    PopupCard
   },
   data() {
     return {

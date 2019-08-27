@@ -5,18 +5,20 @@ module.exports = {
     node: true
   },
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: '@typescript-eslint/parser'
   },
   extends: [
     'prettier',
     'prettier/vue',
     'plugin:prettier/recommended',
     '@nuxtjs',
-    'plugin:nuxt/recommended'
+    'plugin:nuxt/recommended',
+    '@nuxtjs/eslint-config-typescript'
   ],
   plugins: ['prettier'],
   // add your custom rules here
   rules: {
-    'vue/html-self-closing': 'off'
+    'vue/html-self-closing': 'off',
+    'space-before-function-paren': 'off'
   }
 }

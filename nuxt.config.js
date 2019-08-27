@@ -1,5 +1,6 @@
 export default {
   mode: 'universal',
+  buildModules: ['@nuxt/typescript-build'],
   server: { port: 8000, host: '0.0.0.0' },
   /*
    ** Headers of the page
@@ -27,7 +28,14 @@ export default {
         content: process.env.npm_package_description || ''
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'stylesheet',
+        href:
+          'https://cdn.jsdelivr.net/gh/mailtoharshit/San-Francisco-Font-/sanfrancisco.css'
+      }
+    ]
   },
   /*
    ** Customize the progress-bar color
@@ -36,7 +44,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['~/assets/style/main.scss'],
   /*
    ** Plugins to load before mounting the App
    */

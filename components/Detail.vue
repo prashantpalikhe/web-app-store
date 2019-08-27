@@ -9,15 +9,11 @@
     <div class="content">
       <slot />
     </div>
-
-    <console />
   </div>
 </template>
 
 <script>
-import Console from '~/components/Console.vue'
 export default {
-  components: { Console },
   props: {
     heroImage: {
       type: String,
@@ -39,12 +35,6 @@ export default {
 
     this.loop = this.loop.bind(this)
     requestAnimationFrame(this.loop)
-
-    document.addEventListener('touchstart', () => {
-      document.querySelector(
-        '[name="apple-mobile-web-app-status-bar-style"]'
-      ).content = 'default'
-    })
   },
   beforeDestroy() {
     this.enableParallax = false
@@ -53,7 +43,9 @@ export default {
     loop() {
       requestAnimationFrame(this.loop)
 
-      if (!this.enableParallax) return
+      if (!this.enableParallax || window.scrollY === this.scrollY) {
+        return
+      }
 
       this.scrollY = window.scrollY
 
@@ -65,12 +57,6 @@ export default {
         const scale = -this.scrollY / this.heroHeight + 1
 
         this.$refs.parallax.style.transform = `scale3d(${scale}, ${scale}, 0)`
-        // eslint-disable-next-line
-        console.log({
-          scrollY: this.scrollY,
-          scale,
-          top: this.$refs.parallax.getBoundingClientRect().top
-        })
       }
     }
   }
