@@ -1,21 +1,24 @@
 <template>
-  <div
-    ref="card"
-    class="popup-card"
-    :class="{ isTapped, isOpen }"
-    @touchstart="onTouchStart"
-    @touchmove="onTouchMove"
-    @touchend="onTouchEnd"
-  >
-    <div class="popup-card__img">
-      <img :src="image" alt="" />
-    </div>
-    <!-- <slot name="title" />
+  <div>
+    <div v-show="isOpen" id="overlay"></div>
+    <div
+      ref="card"
+      class="popup-card"
+      :class="{ isTapped, isOpen }"
+      @touchstart="onTouchStart"
+      @touchmove="onTouchMove"
+      @touchend="onTouchEnd"
+    >
+      <div class="popup-card__img">
+        <img :src="image" alt="" />
+      </div>
+      <!-- <slot name="title" />
 
     <slot name="subtitle" /> -->
 
-    <div class="popup-card__content">
-      <slot name="content" />
+      <div class="popup-card__content">
+        <slot name="content" />
+      </div>
     </div>
   </div>
 </template>
@@ -23,7 +26,8 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
 
-const SWIPE_THRESHOLD = 40
+const factor = 2.5
+const SWIPE_THRESHOLD = 50 * factor
 
 @Component({})
 class PopupCard extends Vue {
@@ -89,7 +93,7 @@ class PopupCard extends Vue {
   }
 
   swipe() {
-    const newScale = 1 - this.delta / window.innerWidth
+    const newScale = 1 - this.delta / (window.innerWidth * factor)
 
     if (this.delta > SWIPE_THRESHOLD) {
       this.isOpen = false
@@ -97,8 +101,10 @@ class PopupCard extends Vue {
       this.popdown()
       this.toggleBodyScroll({ block: false })
     } else {
+      const borderRadius = Math.min(this.delta / (3 * factor), 12)
+
       this.cardEl.style.transform = `translate3d(-${this.boundingRect.x}px, ${this.transformValue}px, 0) scale(${newScale})`
-      this.cardEl.style.borderRadius = `${this.delta / 3}px`
+      this.cardEl.style.borderRadius = `${borderRadius}px`
     }
   }
 
@@ -132,7 +138,20 @@ export default PopupCard
 </script>
 
 <style lang="scss" scoped>
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: saturate(180%) blur(15px);
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 50;
+}
+
 .popup-card {
+  position: relative;
+  z-index: 300;
   user-select: none;
   height: 400px;
   width: 100%;
@@ -150,6 +169,7 @@ export default PopupCard
   }
 
   .popup-card__content {
+    background: white;
     transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     height: 0;
 
@@ -171,6 +191,7 @@ export default PopupCard
     width: 100vw;
     height: 100vh;
     border-radius: 0;
+    box-shadow: 0 10px 22px 10px rgba(0, 0, 0, 0.25);
 
     .popup-card__img {
       max-height: 50vh;

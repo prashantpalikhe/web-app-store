@@ -102,6 +102,10 @@ export default {
 </script>
 
 <style>
+.container {
+  margin-bottom: 3rem;
+}
+
 .title {
   font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
