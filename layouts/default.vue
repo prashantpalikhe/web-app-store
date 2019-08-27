@@ -1,7 +1,7 @@
 <template>
   <div>
     <nuxt />
-    <console />
+    <!-- <console /> -->
     <fps-counter />
   </div>
 </template>

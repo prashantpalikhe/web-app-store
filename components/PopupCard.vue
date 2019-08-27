@@ -89,7 +89,7 @@ class PopupCard extends Vue {
   }
 
   swipe() {
-    const newScale = this.scaleValue - this.delta / window.innerWidth
+    const newScale = 1 - this.delta / window.innerWidth
     const newTransform = this.transformValue + this.delta
 
     if (this.delta > SWIPE_THRESHOLD) {
@@ -98,20 +98,14 @@ class PopupCard extends Vue {
       this.popdown()
       this.toggleBodyScroll({ block: false })
     } else {
-      this.cardEl.style.transform = `translate3d(0, ${newTransform}px, 0) scale(${newScale})`
+      this.cardEl.style.transform = `translate3d(-${this.boundingRect.x}px, ${newTransform}px, 0) scale(${newScale})`
       this.cardEl.style.borderRadius = `${this.delta / 3}px`
     }
   }
 
   popup() {
-    this.scaleValue = window.innerWidth / this.boundingRect.width
     this.transformValue = -Math.round(this.boundingRect.y)
-    console.log({
-      scaleValue: this.scaleValue,
-      transformValue: this.transformValue
-    })
-
-    this.cardEl.style.transform = `translate3d(0, ${this.transformValue}px, 0) scale(${this.scaleValue})`
+    this.cardEl.style.transform = `translate3d(-${this.boundingRect.x}px, ${this.transformValue}px, 0)`
     this.cardEl.style.borderRadius = '0'
   }
 
@@ -149,6 +143,21 @@ export default PopupCard
   transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   will-change: transform;
   overflow: hidden;
+  box-shadow: 0 10px 12px 0px rgba(0, 0, 0, 0.25);
+
+  .popup-card__img {
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+  }
+
+  .popup-card__content {
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    height: 0;
+
+    > * {
+      opacity: 0;
+    }
+  }
 
   img {
     object-fit: cover;
@@ -160,7 +169,21 @@ export default PopupCard
   }
 
   &.isOpen {
+    width: 100vw;
+    height: 100vh;
     border-radius: 0;
+
+    .popup-card__img {
+      max-height: 50vh;
+    }
+
+    .popup-card__content {
+      height: 50vh;
+
+      > * {
+        opacity: 1;
+      }
+    }
   }
 }
 </style>

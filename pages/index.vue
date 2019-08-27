@@ -89,12 +89,12 @@ export default {
   data() {
     return {
       items: [
-        '/carousel.jpg',
-        '/carousel.jpg',
-        '/carousel.jpg',
-        '/carousel.jpg',
-        '/carousel.jpg',
-        '/carousel.jpg'
+        '/images/slider/1.jpg',
+        '/images/slider/2.jpg',
+        '/images/slider/3.jpg',
+        '/images/slider/1.jpg',
+        '/images/slider/2.jpg',
+        '/images/slider/3.jpg'
       ]
     }
   }
