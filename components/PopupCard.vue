@@ -90,7 +90,6 @@ class PopupCard extends Vue {
 
   swipe() {
     const newScale = 1 - this.delta / window.innerWidth
-    const newTransform = this.transformValue + this.delta
 
     if (this.delta > SWIPE_THRESHOLD) {
       this.isOpen = false
@@ -98,7 +97,7 @@ class PopupCard extends Vue {
       this.popdown()
       this.toggleBodyScroll({ block: false })
     } else {
-      this.cardEl.style.transform = `translate3d(-${this.boundingRect.x}px, ${newTransform}px, 0) scale(${newScale})`
+      this.cardEl.style.transform = `translate3d(-${this.boundingRect.x}px, ${this.transformValue}px, 0) scale(${newScale})`
       this.cardEl.style.borderRadius = `${this.delta / 3}px`
     }
   }
