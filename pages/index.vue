@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <detail hero-image="/regular.jpg" hero-image-blurred="/blur.jpg">
+    <detail :hero-image="require('~/assets/images/detail/hero.jpg')">
       <section class="header">
-        <img src="/icon.jpg" alt="" />
+        <img src="~/assets/images/detail/icon.jpg" alt="" />
 
         <div class="header__content">
           <h1>The Sims™ Mobile</h1>
@@ -35,20 +35,12 @@
           Lorem eiusmod eu esse mollit eu adipisicing. Ipsum commodo elit
           exercitation laborum cupidatat voluptate voluptate ut culpa aute id ut
           quis qui. Aute aliqua est ex veniam magna ad Lorem aute sit do
-          excepteur. Consectetur et aute tempor irure irure cupidatat eu velit
-          cupidatat. Nostrud ut ipsum eiusmod sit nisi occaecat consectetur aute
-          excepteur est. Sunt minim commodo amet nisi mollit occaecat
-          adipisicing et nostrud. Laboris minim consequat irure minim in
-          consequat Lorem sint culpa nostrud Lorem do. Lorem laboris laborum
-          nulla ad irure nisi sunt nisi magna excepteur Lorem enim anim. Enim in
-          ullamco consequat fugiat ea reprehenderit id sit duis dolor officia
-          aute commodo. Ullamco ut et labore proident commodo ullamco ipsum
-          commodo aliqua minim.
+          excepteur.
         </p>
       </section>
 
       <section>
-        <popup-card image="/popup.jpeg">
+        <popup-card :image="require('~/assets/images/detail/popup.jpeg')">
           <template #title>
             <p class="small">HOW TO</p>
             <p class="big">

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-show="isOpen" id="overlay"></div>
+    <div v-show="isOpen" class="overlay"></div>
     <div
       ref="card"
       class="popup-card"
@@ -101,7 +101,8 @@ class PopupCard extends Vue {
       this.popdown()
       this.toggleBodyScroll({ block: false })
     } else {
-      const borderRadius = Math.min(this.delta / (3 * factor), 12)
+      const borderRadius = Math.min(this.delta / 3, 10)
+      console.log(borderRadius)
 
       this.cardEl.style.transform = `translate3d(-${this.boundingRect.x}px, ${this.transformValue}px, 0) scale(${newScale})`
       this.cardEl.style.borderRadius = `${borderRadius}px`
@@ -138,7 +139,7 @@ export default PopupCard
 </script>
 
 <style lang="scss" scoped>
-#overlay {
+.overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -153,24 +154,23 @@ export default PopupCard
   position: relative;
   z-index: 300;
   user-select: none;
-  height: 400px;
+  height: 412px;
   width: 100%;
-  border-radius: 20px;
+  border-radius: 12px;
   background-repeat: no-repeat;
   background-size: cover;
   transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition-property: transform, height, width, border-radius;
   will-change: transform;
   overflow: hidden;
   box-shadow: 0 10px 12px 0px rgba(0, 0, 0, 0.25);
 
   .popup-card__img {
-    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     overflow: hidden;
   }
 
   .popup-card__content {
     background: white;
-    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     height: 0;
 
     > * {
@@ -188,17 +188,18 @@ export default PopupCard
   }
 
   &.isOpen {
+    border-radius: 0;
     width: 100vw;
     height: 100vh;
-    border-radius: 0;
+    transition-property: transform, height, width;
     box-shadow: 0 10px 22px 10px rgba(0, 0, 0, 0.25);
 
     .popup-card__img {
-      max-height: 50vh;
+      max-height: 60vh;
     }
 
     .popup-card__content {
-      height: 50vh;
+      height: 40vh;
 
       > * {
         opacity: 1;

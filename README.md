@@ -1,10 +1,12 @@
 # nuxt-app-store
 
-> My cat&#39;s meow Nuxt.js project
+> Attempt to create iOS App store in all its fluid glory on web
+
+<img src="./static/promo1.gif" width="200">
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 $ yarn install
 
@@ -18,5 +20,3 @@ $ yarn start
 # generate static project
 $ yarn generate
 ```
-
-For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
