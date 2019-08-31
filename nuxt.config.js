@@ -1,5 +1,5 @@
 export default {
-  mode: 'universal',
+  mode: 'spa',
   buildModules: ['@nuxt/typescript-build'],
   server: { port: 8000, host: '0.0.0.0' },
   /*

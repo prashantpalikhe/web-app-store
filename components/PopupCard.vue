@@ -1,13 +1,12 @@
 <template>
   <div>
-    <div v-show="isOpen" class="overlay"></div>
+    <div class="overlay" :class="{ isOpen }"></div>
     <div
       ref="card"
       class="popup-card"
       :class="{ isTapped, isOpen }"
       @touchstart="onTouchStart"
-      @touchmove="onTouchMove"
-      @touchend="onTouchEnd"
+      @touchend="isTapped = false"
     >
       <div class="popup-card__img">
         <img :src="image" alt="" />
@@ -25,6 +24,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
+import Hammer from 'hammerjs'
 
 const factor = 2.5
 const SWIPE_THRESHOLD = 50 * factor
@@ -33,10 +33,6 @@ const SWIPE_THRESHOLD = 50 * factor
 class PopupCard extends Vue {
   @Prop({ type: String, required: true })
   image!: string
-
-  startY = 0
-
-  delta = 0
 
   isOpen = false
 
@@ -52,86 +48,93 @@ class PopupCard extends Vue {
     card: HTMLDivElement
   }
 
+  gesture!: HammerManager
+
   get cardEl() {
     return this.$refs.card
   }
 
-  onTouchStart(e: TouchEvent) {
-    if (this.isOpen) {
-      this.startY = e.touches[0].clientY
-    } else {
-      this.isTapped = true
-      this.boundingRect = this.cardEl.getBoundingClientRect() as DOMRectReadOnly
-    }
+  mounted() {
+    this.gesture = new Hammer(this.cardEl)
+
+    this.gesture
+      .get('pan')
+      .set({ threshold: 0, direction: Hammer.DIRECTION_DOWN })
+
+    this.gesture.on('tap', this.onTap)
   }
 
-  onTouchMove(e: TouchEvent) {
-    if (this.isOpen) {
-      this.delta = e.touches[0].clientY - this.startY
-
-      const isSwipedDown = this.delta > 0
-
-      if (isSwipedDown) {
-        requestAnimationFrame(this.swipe)
-      }
-    } else {
-      this.isTapped = false
-    }
+  beforeDestroy() {
+    this.gesture.destroy()
   }
 
-  onTouchEnd() {
+  onTap() {
     if (this.isOpen) {
-      if (this.delta < SWIPE_THRESHOLD) {
-        this.popup()
-      }
-    } else if (this.isTapped) {
-      this.isOpen = true
-      this.toggleBodyScroll({ block: true })
-
-      requestAnimationFrame(this.popup)
+      return
     }
+
+    this.popup()
   }
 
-  swipe() {
-    const newScale = 1 - this.delta / (window.innerWidth * factor)
+  onPanDown(event: HammerInput) {
+    const { deltaY } = event
 
-    if (this.delta > SWIPE_THRESHOLD) {
-      this.isOpen = false
+    if (deltaY < 0) {
+      return
+    }
 
+    const newScale = 1 - deltaY / (window.innerWidth * factor)
+
+    if (deltaY > SWIPE_THRESHOLD) {
       this.popdown()
-      this.toggleBodyScroll({ block: false })
     } else {
-      const borderRadius = Math.min(this.delta / 3, 10)
-      console.log(borderRadius)
+      const borderRadius = Math.min(deltaY / 3, 10)
 
       this.cardEl.style.transform = `translate3d(-${this.boundingRect.x}px, ${this.transformValue}px, 0) scale(${newScale})`
       this.cardEl.style.borderRadius = `${borderRadius}px`
     }
   }
 
-  popup() {
-    this.transformValue = -Math.round(this.boundingRect.y)
-    this.cardEl.style.transform = `translate3d(-${this.boundingRect.x}px, ${this.transformValue}px, 0)`
-    this.cardEl.style.borderRadius = '0'
-  }
-
-  popdown() {
-    this.cardEl.style.transform = ''
-    this.cardEl.style.borderRadius = ''
-  }
-
-  toggleBodyScroll({ block = true }) {
-    if (block) {
-      document.addEventListener('touchstart', this.preventBodyScroll, {
-        passive: false
-      })
-    } else {
-      document.removeEventListener('touchstart', this.preventBodyScroll)
+  onPanEnd({ deltaY }: HammerInput) {
+    if (deltaY < SWIPE_THRESHOLD) {
+      requestAnimationFrame(this.popup)
     }
   }
 
-  preventBodyScroll(e: TouchEvent) {
-    e.preventDefault()
+  onTouchStart() {
+    if (this.isOpen) {
+      return
+    }
+
+    this.isTapped = true
+    this.boundingRect = this.cardEl.getBoundingClientRect() as DOMRectReadOnly
+  }
+
+  popup() {
+    requestAnimationFrame(() => {
+      this.transformValue = -Math.round(this.boundingRect.y)
+      this.cardEl.style.transform = `translate3d(-${this.boundingRect.x}px, ${this.transformValue}px, 0)`
+      this.cardEl.style.borderRadius = '0'
+    })
+
+    if (!this.isOpen) {
+      this.gesture.on('pan', this.onPanDown)
+      this.gesture.on('pancancel panend', this.onPanEnd)
+    }
+
+    this.isOpen = true
+  }
+
+  popdown() {
+    requestAnimationFrame(() => {
+      this.cardEl.style.transform = ''
+      this.cardEl.style.borderRadius = ''
+    })
+
+    this.gesture.off('pan', this.onPanDown)
+    this.gesture.off('pancancel panend', this.onPanEnd)
+
+    this.isOpen = false
   }
 }
 
@@ -148,6 +151,14 @@ export default PopupCard
   backdrop-filter: saturate(180%) blur(15px);
   background-color: rgba(255, 255, 255, 0.7);
   z-index: 50;
+  opacity: 0;
+  pointer-events: none;
+  touch-action: none;
+  user-drag: none;
+
+  &.isOpen {
+    opacity: 1;
+  }
 }
 
 .popup-card {
@@ -191,6 +202,7 @@ export default PopupCard
     border-radius: 0;
     width: 100vw;
     height: 100vh;
+    transition-duration: 700ms;
     transition-property: transform, height, width;
     box-shadow: 0 10px 22px 10px rgba(0, 0, 0, 0.25);
 
