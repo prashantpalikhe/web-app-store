@@ -23,6 +23,7 @@
 </template>
 
 <script lang="ts">
+import { styler, spring, value } from 'popmotion'
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
 import Hammer from 'hammerjs'
 
@@ -62,6 +63,7 @@ class PopupCard extends Vue {
       .set({ threshold: 0, direction: Hammer.DIRECTION_DOWN })
 
     this.gesture.on('tap', this.onTap)
+    ;(window as any).popdown = () => this.popdown()
   }
 
   beforeDestroy() {
@@ -125,15 +127,31 @@ class PopupCard extends Vue {
     this.isOpen = true
   }
 
+  // Old method for reference
+  // popdown() {
+  // requestAnimationFrame(() => {
+  //   this.cardEl.style.transform = ''
+  //   this.cardEl.style.borderRadius = ''
+  // })
+  // this.gesture.off('pan', this.onPanDown)
+  // this.gesture.off('pancancel panend', this.onPanEnd)
+  // this.isOpen = false
+  // }
+
   popdown() {
-    requestAnimationFrame(() => {
-      this.cardEl.style.transform = ''
-      this.cardEl.style.borderRadius = ''
-    })
+    const divStyler = styler(this.cardEl)
+    const { x, y } = this.cardEl.getBoundingClientRect() as DOMRect
 
-    this.gesture.off('pan', this.onPanDown)
-    this.gesture.off('pancancel panend', this.onPanEnd)
+    const cardXY = value({ x, y }, divStyler.set)
+    const config = {
+      from: cardXY.get(),
+      velocity: cardXY.getVelocity(),
+      to: { x: 0, y: 0 },
+      stiffness: 100,
+      damping: 10
+    }
 
+    spring(config).start(cardXY)
     this.isOpen = false
   }
 }
