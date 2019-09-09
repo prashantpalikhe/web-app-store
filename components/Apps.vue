@@ -20,6 +20,7 @@
 
           <div class="apps__app__action">
             <button>GET</button>
+            <span>In-App Purchases</span>
           </div>
         </div>
       </div>
@@ -65,8 +66,9 @@ export default class Apps extends Vue {
 
   &__title {
     font-size: 24px;
-    font-weight: bold;
+    font-weight: 700;
     flex: 1;
+    letter-spacing: -0.6px;
   }
 
   &__cta {
@@ -119,17 +121,25 @@ export default class Apps extends Vue {
 
   &__action {
     align-self: center;
-  }
-}
+    display: flex;
+    flex-direction: column;
 
-button {
-  color: #2d7cf6;
-  -webkit-appearance: none;
-  border: none;
-  padding: 6px 20px;
-  background: white;
-  font-weight: bold;
-  border-radius: 20px;
-  font-size: 16px;
+    button {
+      color: #2d7cf6;
+      -webkit-appearance: none;
+      border: none;
+      padding: 6px 23px;
+      background: white;
+      font-weight: bold;
+      border-radius: 20px;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    span {
+      font-size: 9px;
+      color: #8d8e92;
+    }
+  }
 }
 </style>
