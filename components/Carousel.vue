@@ -1,6 +1,6 @@
 <template>
   <ul class="carousel">
-    <li class="carousel__item" v-for="(item, index) in items" :key="index">
+    <li v-for="(item, index) in items" :key="index" class="carousel__item">
       <img class="carousel__img" :src="item" alt="" />
     </li>
   </ul>

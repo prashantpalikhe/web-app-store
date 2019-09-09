@@ -39,6 +39,8 @@
         </p>
       </section>
 
+      <apps :apps="apps" title="More by Prashant" />
+
       <section>
         <popup-card :image="require('~/assets/images/detail/popup.jpeg')">
           <template #title>
@@ -71,9 +73,11 @@
 import Detail from '~/components/Detail.vue'
 import PopupCard from '~/components/PopupCard.vue'
 import Carousel from '~/components/Carousel.vue'
+import Apps from '~/components/Apps.vue'
 
 export default {
   components: {
+    Apps,
     Detail,
     Carousel,
     PopupCard
@@ -87,6 +91,38 @@ export default {
         '/images/slider/1.jpg',
         '/images/slider/2.jpg',
         '/images/slider/3.jpg'
+      ],
+      apps: [
+        {
+          title: 'Little lines puzzle',
+          subtitle: 'Rotate to connect',
+          icon: '/images/slider/3.jpg'
+        },
+        {
+          title: 'Little lines puzzle',
+          subtitle: 'Rotate to connect',
+          icon: '/images/slider/3.jpg'
+        },
+        {
+          title: 'Little lines puzzle',
+          subtitle: 'Rotate to connect',
+          icon: '/images/slider/3.jpg'
+        },
+        {
+          title: 'Little lines puzzle',
+          subtitle: 'Rotate to connect',
+          icon: '/images/slider/3.jpg'
+        },
+        {
+          title: 'Little lines puzzle',
+          subtitle: 'Rotate to connect',
+          icon: '/images/slider/3.jpg'
+        },
+        {
+          title: 'Little lines puzzle',
+          subtitle: 'Rotate to connect',
+          icon: '/images/slider/3.jpg'
+        }
       ]
     }
   }
