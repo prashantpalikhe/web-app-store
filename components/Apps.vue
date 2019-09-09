@@ -92,6 +92,10 @@ export default class Apps extends Vue {
     margin-right: 10px;
     min-width: calc(100vw - 40px);
     scroll-snap-align: center;
+
+    &:last-of-type {
+      padding-right: 20px;
+    }
   }
 }
 
